@@ -15,7 +15,8 @@ func isBridge(matrix [][]int, numVert, x, y int) bool { //function called by fin
 	matrix[x][y] = 0
 	matrix[y][x] = 0
 	after := numConnected(matrix, numVert)
-	fmt.Printf("b %d , a %d \n", before, after)
+	matrix[x][y] = 1
+	matrix[y][x] = 1
 	if after < before {
 		return true
 	}
@@ -30,14 +31,9 @@ func findEulerPath(matrix [][]int, numVert, first int) {
 	y := 0
 	storeBridge := 0
 	for true { // keep chugging through matrix until all paths have been used
-		if x == 3 {
-			fmt.Println(x, " ", y)
-			printMatrix(matrix, numVert)
-		}
 		if matrix[x][y] != 0 { //for each edge check if it is a bridge if so save it, if not take it
 			if isBridge(matrix, numVert, x, y) {
 				storeBridge = y
-				fmt.Printf("Bridge at %d %d ", x, y)
 				y++
 			} else {
 				fmt.Printf("-> %d", y+1)
