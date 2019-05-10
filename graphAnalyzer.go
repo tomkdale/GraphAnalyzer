@@ -31,6 +31,7 @@ func isBridge(matrix [][]int, numVert, x, y int) bool {
 }
 
 //finds euler path given a proper vertex to start at
+//function will print a cycle if one exists, regardless of where it starts, if only a path exists then first will be the proper vertex to start at
 func findEulerPath(matrix [][]int, numVert, first int) {
 	//start at first vertex passed into function (will be one of two odd values)
 	fmt.Printf("%d", first+1)
@@ -116,25 +117,6 @@ func checkEulerCycle(matrix [][]int, numVert int) bool {
 		}
 	}
 	return true //no odd degree vertex exist so return true
-}
-
-//Print euler cycle is called when an euler cycle is verified to be in the matrix
-func printEulerCycle(matrix [][]int, numVert int) {
-	// i and j are rows and columns in the matrix, simply go through the matrix taking any edge and a valid cycle will arise
-	i := 0
-	fmt.Printf("%d", i)
-	for j := 0; j < numVert; {
-		if matrix[i][j] != 0 {
-			fmt.Printf("->%d ", j)
-			matrix[i][j] = 0 //delete edge in both directions
-			matrix[j][i] = 0
-			i = j
-			j = 0
-		} else {
-			j++
-		}
-	}
-
 }
 
 //recursive function checks all vertices in matrix to see if graph is connected
@@ -245,7 +227,7 @@ func main() {
 		//check if euler cycle exists, if so find one
 		if checkEulerCycle(matrix, numVert) {
 			fmt.Println("Euler cycle exists!")
-			printEulerCycle(matrix, numVert)
+			findEulerPath(matrix, numVert, 0)
 		} else {
 			//check if euler path exists if so find one
 			fmt.Println("Graph has no euler Cycle")
